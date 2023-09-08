@@ -4,7 +4,7 @@ const DeleteItm = () => {
   return (
       <>  
       Item List
-
+      
       </>
   )
 }

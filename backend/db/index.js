@@ -1,7 +1,14 @@
-const { Pool } = require("pg");
+import pkg from 'pg';
+const { Client } = pkg;
 
-const pool = new Pool();
+const client = new Client({
+        user: "postgres",
+        host: "localhost",
+        database: "storedata",
+        password: "Sppsql.com",
+        port: 5432
+});
 
-module.exports = {
-    query: (text, params) => pool.query(text, params)
-}
+function query(text, params) { return client.query(text, params); }
+
+export default {query}

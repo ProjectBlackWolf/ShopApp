@@ -1,8 +1,29 @@
-# React + Vite
+# PERN
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## PostgreSQL, Express, React, Node
 
-Currently, two official plugins are available:
+### Description
+This is a simple full stack application that uses PostgreSQL, Express, React, and Node. It is a simple CRUD application that allows the user to add, edit, and delete items from a list. The list is stored in a PostgreSQL database and is accessed through an Express server. The front end is built with React and uses Axios to make requests to the server. The server is built with Node and Express. The server is hosted on Netlify and the database is hosted on . The front end is hosted on Netlify.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation
+grab the repo
+```bash
+git clone
+```
+install dependencies
+```bash
+npm install
+```
+start the server
+```bash
+npm start
+```
+
+### Usage
+```bash
+npm start
+```
+localhost:5432
+-----------------
+### Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
