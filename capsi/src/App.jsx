@@ -1,6 +1,6 @@
 import './styles/App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes }
+import { BrowserRouter as Router, Routes, Route}
   from 'react-router-dom';
 import Read from './routes/Read.jsx'
 import { ItemContextProvider } from './context/ItemContext';
@@ -12,18 +12,17 @@ function App() {
     <>
       <ItemContextProvider>
         <div className='container'>
-          <Router>
+          <Read/>
+          {/* <Router>
             <Routes>
-            <Route exact path="/" Component={Read} ></Route>
+              <Route path='/' element={<Read/>}/>
               <Route
-                exact
                 path='/invItem/:id/update'
-                component={Update} 
+                element={<Update/>}
               />
-              <Route exact path='/invItem/:id' Component={ReadOne}>
-            </Route>
+              <Route path='/invItem/:id' element={<ReadOne/>}/>
             </Routes>
-          </Router>
+          </Router> */}
         </div>
       </ItemContextProvider>
     </>

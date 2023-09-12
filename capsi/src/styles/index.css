@@ -13,6 +13,11 @@
   -webkit-text-size-adjust: 100%;
 }
 
+img {
+  width: fit-content;
+  height: 100px;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

@@ -12,18 +12,29 @@ git clone
 ```
 install dependencies
 ```bash
-npm install
+npm i
 ```
-start the server
+start the server 3005
 ```bash
-npm start
+nodemon server.js
 ```
+
+### Ubuntu for db
+```
+sudo service postgresql start
+```
+sudo -i -u postgres 
+```
+psql
+```
+connect to your database hosted at
+the ip below.
 
 ### Usage
 ```bash
-npm start
+npm run dev
 ```
-localhost:5432
+localhost:5432 <------- The IP MENTIONED
 -----------------
 ### Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.

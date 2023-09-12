@@ -3,7 +3,7 @@ import React from 'react'
 const Create = () => {
   return (
       <>
-            <h1>Add an Item</h1>
+      <h1>Add an Item</h1>
       <div className='buy-4'>
         <div className='form-row'>
           
@@ -39,7 +39,6 @@ const Create = () => {
                     <label htmlFor="category">Category</label>
                     <input type="text" name="category" id="category" />
           </form>
-          
         </div>
       </div>
       </>

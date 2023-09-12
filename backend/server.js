@@ -34,28 +34,17 @@ app.use(methodOverride("_method"));
 
 //app.use('/public', express.static('public'));
 app.use(express.static(dirName + '/public')); // Keep
-app.use(cors({ origin: '*' }));
+app.use(cors());
 app.use(express.json()); // serve files from public statically
 //parsing incomming requests
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-    console.log("Yeah our Middleware.");
-    next();
-});
-
-app.use((req, res, next) => {
     console.log("I run for all routes");
     next();
 });
-
-app.use((req, res, next) => {
-    console.log("This is our second middleware.");
-    next();
-});
-
 // Delete an item
-app.delete("/api/v1/invItem/:id", async (req, res) => {
+app.delete("/invItem/:id", async (req, res) => {
     try {
         const results = db.query("DELETE FROM product where id = $1", [
             req.params.id
@@ -71,29 +60,23 @@ app.delete("/api/v1/invItem/:id", async (req, res) => {
 
 // update
 // 'add to cart'??????
-app.put("/api/v1/invItem/:id", async (req, res) => {
+// yes just because of this assignment
+app.put("/invItem/:id", async (req, res) => {
     try {
-        
-        const results = await db.query("ALTER TABLE product where id = $1", [
-            req.params.id
-        ]);
-        res.status(200).json({
-            status: "success",
-            results: results.rows.length,
-            data: {
-                invItem: results[rows]
-            }
-        })
+
+        const results = await db("ALTER TABLE usercart where id = $1",
+            [id]);
+        res.json(results)
         res.send(results);
-        
+
     } catch (error) {
         console.log(error);
     }
 })
 
 // create 
-app.post("/api/v1/invItem", async (req, res) => {
-    await db.query("INSERT INTO product id = $1", [
+app.post("/invItem", async (req, res) => {
+    await db("INSERT INTO product id = $1", [
         req.body
     ]);
 })
@@ -104,37 +87,28 @@ app.get('/', (req, res) => {
 })
 
 
-// GET ALL
-app.get("/api/v1/invItem", async (req, res) => {
+// GET ALL\ items
+app.get("/invItem", async (req, res) => {
     try {
-        const results = await db.query("SELECT * FROM storedata");
-        console.log(results);
-        res.status(200).json({
-            status: "success",
-            results: results.rows.length,
-            data: {
-                invItem: results[rows],
-            },
-        });
+        const itemas = await db.query('SELECT * FROM product');
+        console.log(itemas);
+        res.json(itemas.rows);
     } catch (error) { console.log(error); }
 });
 
 // Get one specific item
 // Buy form after buy button is pressed. 
 // This leads to 'add to cart' [UPDATE]
-app.get("/api/v1/invItem/:id", async (req, res) => {
+app.get("/invItem/:id", async (req, res) => {
     console.log(req.params.id);
+    const id = req.params.id;
+    const results = await db(`SELECT * FROM product WHERE id = $1`, [id])
     res.status(200).json({
         status: "success",
         data: {
             invItem: results.rows[0]
         }
     })
-})
-
-
-app.get("/api/v1/storeApp", (req, res) => {
-    res.send("hola");
 })
 
 app.listen(port, () => {

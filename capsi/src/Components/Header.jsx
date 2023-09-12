@@ -1,6 +1,6 @@
 import React from 'react';
 import "../../src/styles/App.css";
-const useStyles = (theme) => ({
+const useStyles = () => ({
     container: {
         display: 'flex',
         flexWrap: 'wrap',

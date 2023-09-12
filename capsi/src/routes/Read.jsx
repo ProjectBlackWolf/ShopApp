@@ -8,9 +8,9 @@ import Cartpage from '../Components/Cartpage';
 const Read = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Mainpage />
-      <Cartpage/>
+      {/* <Cartpage/> */}
     </div>
     
 
