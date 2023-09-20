@@ -1,9 +1,8 @@
 import pkg from 'pg';
-const { Pool, Client } = pkg;
+const { Pool } = pkg;
 
 import dotenv from 'dotenv';
 dotenv.config();
-console.log(process.env);
 const pool = new Pool({
                 user: process.env.PGUSER,
                 host: process.env.PGHOST,
@@ -11,7 +10,6 @@ const pool = new Pool({
                 database: process.env.PGDATABASE,
                 port: process.env.PGPORT,
         })
-console.log(pool);
 pool.connect();
 console.log('did we connex');
 export default pool

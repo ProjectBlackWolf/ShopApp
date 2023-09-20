@@ -19,13 +19,13 @@ const useStyles = () => ({
     },
 });
 const Header = () => {
-  return (
-      <>
-        <div>
-            {Component}
-        </div>
-      </>
-  )
+    return (
+        <>
+            <div>
+                {Component}
+            </div>
+        </>
+    )
 }
 function Component() {
     const classes = useStyles();

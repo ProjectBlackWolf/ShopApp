@@ -10,10 +10,10 @@ const app = express();
 const dirName = getDirName(import.meta.url);
 /*
 Express Middleware
- 
+
     React -> Request -> Node/Express  
-                      middleware v
-      ^ Response  <-  Route-Handler
+                        middleware v
+    ^  Response    <-  Route-Handler
                         
 */
 dotenv.config();
@@ -67,7 +67,6 @@ app.put("/invItem/:id", async (req, res) => {
         const results = await db("ALTER TABLE usercart where id = $1",
             [id]);
         res.json(results)
-        res.send(results);
 
     } catch (error) {
         console.log(error);
@@ -103,12 +102,7 @@ app.get("/invItem/:id", async (req, res) => {
     console.log(req.params.id);
     const id = req.params.id;
     const results = await db(`SELECT * FROM product WHERE id = $1`, [id])
-    res.status(200).json({
-        status: "success",
-        data: {
-            invItem: results.rows[0]
-        }
-    })
+    res.json({item: results})
 })
 
 app.listen(port, () => {
