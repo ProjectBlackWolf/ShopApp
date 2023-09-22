@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../styles/SignUp.css";
 
-export default async function SignUp({ setToken }) {
-    <script src="https://www.google.com/recaptcha/api.js"></script>
-
+export default async function SignUp( ) {
     if (setToken == null) {
         const [username, setUsername] = useState("");
         const [password, setPassword] = useState("");
@@ -24,6 +22,8 @@ export default async function SignUp({ setToken }) {
         }
         return (
             <>
+                <script src="https://www.google.com/recaptcha/api.js"></script>
+
                 <h3> If you have an account Login here.. =- </h3>
                 <Link to="/login"><button>Login</button></Link>
                 <h2 id="loader_cube--glowing">Sign Up</h2>

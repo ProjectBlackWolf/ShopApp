@@ -2,19 +2,17 @@ import React from 'react';
 import Header from '../Components/Header';
 import Mainpage from '../Components/Mainpage';
 import Cartpage from '../Components/Cartpage';
+import BuyForm from '../Components/BuyForm';
+import '../styles/App.css';
 
-// This will be the home where the get all request will be made
-// and the Home page will be rendered
-// move the Item Context Provider here if the render is not working
+// put the auth here.
 const Read = () => {
   return (
-    <div>
+    <>
       {/* <Header /> */}
-        <Mainpage/>
+      <Mainpage />
       {/* <Cartpage/> */}
-    </div>
-    
-
+    </>
   )
 }
 

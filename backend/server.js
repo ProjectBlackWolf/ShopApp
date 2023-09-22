@@ -4,7 +4,6 @@ import methodOverride from 'method-override';
 import db from './db/index.js';
 import dotenv from 'dotenv';
 import { getDirName } from "./getDirName.js";
-
 const port = process.env.PORT || 3005;
 const app = express();
 const dirName = getDirName(import.meta.url);
@@ -61,10 +60,9 @@ app.delete("/invItem/:id", async (req, res) => {
 // update
 // 'add to cart'??????
 // yes just because of this assignment
-app.put("/invItem/:id", async (req, res) => {
+app.put("/invItem/update/:id", async (req, res) => {
     try {
-
-        const results = await db("ALTER TABLE usercart where id = $1",
+        const results = await db.query("ALTER TABLE usercart where id = $1",
             [id]);
         res.json(results)
 
@@ -75,7 +73,7 @@ app.put("/invItem/:id", async (req, res) => {
 
 // create 
 app.post("/invItem", async (req, res) => {
-    await db("INSERT INTO product id = $1", [
+    await db.query("INSERT INTO product id = $1", [
         req.body
     ]);
 })
@@ -84,10 +82,10 @@ app.post("/invItem", async (req, res) => {
 app.get('/', (req, res) => {
     res.send("hola");
 })
-
+//https://fakestoreapi.com/users
 
 // GET ALL\ items
-app.get("/invItem", async (req, res) => {
+app.get("/invItem/getAll", async (req, res) => {
     try {
         const itemas = await db.query('SELECT * FROM product');
         console.log(itemas);
@@ -96,13 +94,18 @@ app.get("/invItem", async (req, res) => {
 });
 
 // Get one specific item
-// Buy form after buy button is pressed. 
-// This leads to 'add to cart' [UPDATE]
+// show
 app.get("/invItem/:id", async (req, res) => {
-    console.log(req.params.id);
-    const id = req.params.id;
-    const results = await db(`SELECT * FROM product WHERE id = $1`, [id])
-    res.json({item: results})
+    try {
+            const {id} = req.params;
+        const results =
+        await db.query(`SELECT * FROM product WHERE id = $1`, [id]);
+        console.log(res.status({ results }));
+        res.send(results);
+    } catch (error) {
+        console.log(error);
+    }
+    
 })
 
 app.listen(port, () => {

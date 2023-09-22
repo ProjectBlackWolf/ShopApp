@@ -8,9 +8,9 @@ const Login = () => {
         <div>
             <h1>Log in</h1>
             <br />
-            <div><h3>or if you dont have an account sign in here.</h3></div>
+            <div><h3>or if you dont have an account register here.</h3></div>
             <br />
-            <div><Link to="/"></Link></div>
+            <h3><Link to="/register">Register</Link></h3>
             <form>
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" id="username" />

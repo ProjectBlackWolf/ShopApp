@@ -1,35 +1,108 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  display: flex;
+  z-index: 3;
+  flex-direction: row;
+  width: fit-content;
+  height: auto;
+  width: auto;
+  margin: 113px 100px 100px 100px;
+  padding: 0px;
+  scroll-margin: 3px;
+  scroll-behavior: smooth;
+  flex: auto;
+}
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  display: inline;
+  flex: auto;
+  table-layout: auto;
+  columns: unset;
+}
+
+body{
+  background-color: #282834;
+  color: #cdf4ff;
+  font-family: 'Roboto', sans-serif;
+  font-size: calc(8px + 2px);
   text-align: center;
+  display: auto;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+input{
+  place-content: left;
+  color:#cdf4ff;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.form-control{
+  color: azure;
+}
+
+img{
+  width: 100%;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  display: inline;
+  flex: auto;
+  display: auto;
+}
+
+#sized {
+  width: auto;
+  margin: 0px fit-content;
+  padding: 0px;
+  scroll-behavior: smooth;
+  height: max-content;
+}
+
+.card{
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  flex: auto;
+  width: fit-content;
+  table-layout: auto;
+  display: inline;
+  columns: unset;
+}
+
+.container {
+  padding: 0px;
+  border-radius: 0px;
+  flex: auto;
+  width: auto;
+  height: fit-content;
+  margin: 0px fit-content;
+  height: max-content;
+  scroll-behavior: smooth;
 }
 
 a{
-  color: #61dafb;
+  color: #9feaff;
   text-decoration: none;
 }
 
 .card {
-  padding: 2em;
+  padding: 0px;
+  border-radius: 0px;
+  width: fit-content;
+  height: auto;
+  display: inline;
+}
+
+.card-subtitle mb-2 text-muted {
+  font-size: 0.8px;
+}
+
+.card-title{
+  font-size: 100%;
 }
 
 .read-the-docs {
-  color: #888;
+  color: #fbfbfb;
 }

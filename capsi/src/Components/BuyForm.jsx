@@ -1,12 +1,12 @@
 import React from 'react';
 
-const BuyForm = props => {
+const BuyForm = (cartArr) => {
   return (
       <>
           <div>
               <h2>Checkout Items</h2>
               <div>
-                {this.props.cart.map((item) => {
+                {this.cartArr.map((item) => {
                     return (
                         item.name,
                         item.quantity,

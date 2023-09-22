@@ -2,13 +2,16 @@ import '../styles/App.css';
 import React, { useEffect, useContext } from 'react';
 import { ItemContext } from '../context/ItemContext';
 import ItemFinder from '../api/ItemFinder';
+import { Link, NavLink } from 'react-router-dom';
+import ReadOne from '../routes/ReadOne';
 // use the class method to fetch data
+
 const Mainpage = (props) => {
   const { items, setItems } = useContext(ItemContext);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ItemFinder.get("/");
+        const response = await ItemFinder.get('/getAll');
         console.log(response.data);
         setItems(response.data);
       } catch (err) { }
@@ -18,7 +21,7 @@ const Mainpage = (props) => {
   const handleDelete = async (e, id) => {
     e.stopPropagation();
     try {
-      const response = await ItemFinder.delete(`/${id}`);
+      await ItemFinder.delete(`/${id}`);
       setItems(
         items.filter((Item) => {
           return Item.id !== id;
@@ -29,37 +32,45 @@ const Mainpage = (props) => {
     }
   };
 
-  const handleUpdate = (e, id) => {
+  const handleUpdate = async(e, id) => {
     e.stopPropagation();
-    //return (`/${id}/update`) ;
+    <Link to={(`/update/${id}`)} />
   };
 
-  const handleItemSelect = (id) => {
-    //return (<Link to={(`/${id}`)}></Link>);
+  const handleItemSelect = async (e, id) => {
+    e.stopPropagation();
+    try {
+      // setItems(
+      //   items.filter((Item) => {
+      //     Item.id !== id;
+      //   })
+      // );
+      await ItemFinder.request(`/${id}`);
+      <Link to={`/${id}`} />
+    } catch (err) {
+      console.log(err);
+    }//
   };
   let im = [];
   im = items;
   return (
     <>
-      <div>
-        {
-          im.map((item) => {
-            return (
-              <div key={item.id}>
-                <div className="card">
-                  <div className="card-body">
-                    <h5 className="card-title">{item.name}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
-                    <img src={`${item.image}`}></img>
-                    <p className="card-text">{item.description}</p>
-                    {/* <Link to={`/invItem/${item.id}/update`}/> */}
-                  </div>
-                </div>
-              </div>
-            )
-          })
-        }
-      </div>
+      {
+        im.map((item) => {
+          return (
+            <div className='container' key={item.id}>
+              <ol className='card'>
+                <h5 className="card-title">{item.name}</h5>
+                <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
+                <img src={`${item.image}`}></img>
+                <button onClick={(e) => handleItemSelect(e, item.id)}>Details</button>
+                <button onClick={(e) => handleUpdate(e, item.id)}>Update</button>
+                <button onClick={(e) => handleDelete(e, item.id)}>Delete</button>
+              </ol>
+            </div>
+          )
+        })
+      }
     </>
   )
 }
