@@ -2,12 +2,12 @@ import '../styles/App.css';
 import React, { useEffect, useContext } from 'react';
 import { ItemContext } from '../context/ItemContext';
 import ItemFinder from '../api/ItemFinder';
-import { Link, NavLink } from 'react-router-dom';
-import ReadOne from '../routes/ReadOne';
+import { Link, NavLink, redirect, useNavigate } from 'react-router-dom';
 // use the class method to fetch data
 
 const Mainpage = (props) => {
   const { items, setItems } = useContext(ItemContext);
+  let history = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -32,25 +32,24 @@ const Mainpage = (props) => {
     }
   };
 
-  const handleUpdate = async(e, id) => {
+  const handleUpdate = async (e, id) => {
     e.stopPropagation();
-    <Link to={(`/update/${id}`)} />
+    try {      
+      history(`/${id}/update`)
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleItemSelect = async (e, id) => {
     e.stopPropagation();
     try {
-      // setItems(
-      //   items.filter((Item) => {
-      //     Item.id !== id;
-      //   })
-      // );
-      await ItemFinder.request(`/${id}`);
-      <Link to={`/${id}`} />
+      history(`/show/${id}`)
     } catch (err) {
       console.log(err);
-    }//
+    }
   };
+
   let im = [];
   im = items;
   return (
@@ -58,7 +57,7 @@ const Mainpage = (props) => {
       {
         im.map((item) => {
           return (
-            <div className='container' key={item.id}>
+            <div id='containeroo' key={item.id}>
               <ol className='card'>
                 <h5 className="card-title">{item.name}</h5>
                 <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>

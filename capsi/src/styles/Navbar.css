@@ -1,0 +1,24 @@
+#navbar{
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    position: fixed;
+    width: 20%;
+    z-index: 0;
+    bottom: 90%;
+}
+
+.container{
+    display:contents;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #212121;
+    z-index: -1;
+}

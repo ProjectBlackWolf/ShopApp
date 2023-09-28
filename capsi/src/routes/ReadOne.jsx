@@ -1,67 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // find a way to move the selected item onto this page.
-import { useState, useEffect } from 'react';
-import props from 'prop-types';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-class ReadOne extends React.Component { 
-  constructor(props) {
-    super(props);
-    this.state = {
-      item: null,
-    };
-  }
-  async componentDidMount() {
-    try {
-      const response = await ItemFinder.get(`/${this.props.id}`);
-      console.log(response.data);
-      this.setState({
-        item: response.data,
-      });
-    } catch (err) { }
-  }
-  render() {
-    var item = this.props;
-    const [tem, sI] = useState(null);
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const response = await ItemFinder.get(`/${item.id}`); 
-          console.log(response.data);
-          sI(response.data);
-        } catch (err) { }
-      };
-      fetchData();
-    }, []);
-    const handleDelete = async (e) => {
-      e.stopPropagation();
+import ItemFinder from '../api/ItemFinder';
+import { ItemContext } from '../context/ItemContext.jsx';
+import '../styles/App.css';
+
+const ReadOne = (prop) => {
+  const { id } = useParams();
+  const { selectedItem, setSelectedItem} = useContext(ItemContext);
+  const [cid, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category_id, setCategory_id] = useState("");
+  const [sku, setSku] = useState("");
+  const [message, setMessage] = useState("");
+
+  const [error, setError] = useState("");
+  let nav = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        await ItemFinder.delete(`/${item.id}`);
+        const response = await ItemFinder.get(`show/${id}`);
+        console.log(response.data.data.item);
+        setId(response.data.data.item.id);
+        setName(response.data.data.item.name);
+        setPrice(response.data.data.item.price);
+        setDescription(response.data.data.item.description);
+        setImage(response.data.data.item.image);
+        setQuantity(response.data.data.item.quantity);
+        setCategory_id(response.data.data.item.category_id);
+        setSku(response.data.data.item.sku);
       } catch (err) {
         console.log(err);
       }
     };
+    fetchData();
+  }, []);
 
-    const handleUpdate = (e, item) => {
-      e.stopPropagation();
-      <Link to={(`/update/${item.id}`)}></Link>;
-    };
-    return (
-      <>
-        <tr className='card'>
-          <td><h5 className="card-title">{item.name}</h5></td>
-          <td><h6 className="card-subtitle mb-2 text-muted">{item.price}</h6></td>
-          <td><img src={`${item.image}`}></img></td>
-          <td><p className="card-text">{item.description}</p></td>
-          <th>In-Stock:</th>
-          <td><p>{item.quantity}</p></td>
-          <td><p>{item.sku}</p></td>
-          <td><button onClick={(e) => handleUpdate(e, item)}>Update</button></td>
-          <td><button onClick={(e) => handleDelete(e)}>Delete</button></td>
-        </tr>
-      </>
-    )
+  const navBack = () => {
+    nav(`/getAll`);
   }
 
+  return (
+    <>
+      <form action="">
+        <h2><label htmlFor="name"> Name : {name}</label></h2>
+        <h3><label htmlFor="price">Price : {price}</label></h3>
+        <h3><label htmlFor="description">Description : {description}</label></h3>
+        <br />
+        <h3><label htmlFor="image"></label></h3>
+        <h3><img src={image} alt="" /></h3>
+        <br />
+        <h3><label htmlFor="quantity">Quantity : {quantity}</label></h3>
+        <h3><label htmlFor="category">Category : {category_id}</label></h3>
+          <h3><label htmlFor="sku">SKU : {sku}</label></h3>
+      </form>
+      <button onClick={navBack}>back</button>
+    </>
+  )
 }
 
 export default ReadOne

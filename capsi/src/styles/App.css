@@ -1,15 +1,16 @@
 #root {
-  display: flex;
-  z-index: 3;
-  flex-direction: row;
-  width: fit-content;
-  height: auto;
-  width: auto;
-  margin: 113px 100px 100px 100px;
+  display:list-item;
+  z-index: 0;
+  margin: 113px 100px;
   padding: 0px;
-  scroll-margin: 3px;
-  scroll-behavior: smooth;
-  flex: auto;
+  border-radius: 0px;
+}
+
+#containeroo{
+  display: fixed;
+  flex-wrap: wrap;
+  height: auto;
+  width: fit-content;
 }
 
 table{
@@ -33,7 +34,7 @@ body{
 }
 
 input{
-  place-content: left;
+  place-content: center;
   color:#cdf4ff;
 }
 
@@ -56,30 +57,34 @@ img{
   width: auto;
   margin: 0px fit-content;
   padding: 0px;
-  scroll-behavior: smooth;
   height: max-content;
 }
 
 .card{
-  padding: 0px;
-  margin: 0px;
   border-radius: 0px;
-  flex: auto;
+  flex: content;
+  flex-flow: row wrap;
   width: fit-content;
   table-layout: auto;
-  display: inline;
-  columns: unset;
+  display: flexbox;
 }
 
 .container {
-  padding: 0px;
-  border-radius: 0px;
-  flex: auto;
-  width: auto;
-  height: fit-content;
-  margin: 0px fit-content;
-  height: max-content;
+  display:contents;
   scroll-behavior: smooth;
+  z-index: -1;
+}
+
+#authButton{
+  background-color: #1a1a1a;
+  color: #cdf4ff;
+  border-radius: 0px;
+  width: 140px;
+  height: 10px;
+  display: inline;
+  flex: auto;
+  table-layout: auto;
+  columns: unset;
 }
 
 a{

@@ -4,6 +4,7 @@ import methodOverride from 'method-override';
 import db from './db/index.js';
 import dotenv from 'dotenv';
 import { getDirName } from "./getDirName.js";
+import morgan from 'morgan';
 const port = process.env.PORT || 3005;
 const app = express();
 const dirName = getDirName(import.meta.url);
@@ -60,25 +61,47 @@ app.delete("/invItem/:id", async (req, res) => {
 // update
 // 'add to cart'??????
 // yes just because of this assignment
-app.put("/invItem/update/:id", async (req, res) => {
+app.put("/invItem/:id", async (req, res) => {
     try {
-        const results = await db.query("ALTER TABLE usercart where id = $1",
-            [id]);
-        res.json(results)
+        const results = await db.query(
+            "UPDATE product SET name = $1, price = $2, description = $3, image = $4, quantity = $5, category_id = $6, sku = $7 where id = $8 returning *",
+            [req.body.name, req.body.price, req.body.description, req.params.image, req.params.quantity, req.params.category_id, req.params.sku, req.params.id]
+        );
+        res.status(200).json({
+            status: "success",
+            data: {
+                item: results.rows[0]
+            }
+        });
+    } catch (err) {
+        console.log(err);
+    }
+    console.log(req.params.id);
+    console.log(req.body);
+});
 
+// create 
+app.post("/invItem", async (req, res) => {
+    try {
+        const results = await db.query(`INSERT INTO product(id, name, price, description, image, quantity, category_id, sku) values ($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
+            [
+                req.body.id, req.body.name, req.body.price, req.body.description, req.body.image,
+                req.body.quantity, req.body.category_id, req.body.sku
+            ]
+        );
+        console.log(results);
+        res.status(201).json({
+            status: "succes",
+            data: {
+                item: results.rows[0],
+            },
+        });
     } catch (error) {
         console.log(error);
     }
 })
 
-// create 
-app.post("/invItem", async (req, res) => {
-    await db.query("INSERT INTO product id = $1", [
-        req.body
-    ]);
-})
-
-// read
+// welcome
 app.get('/', (req, res) => {
     res.send("hola");
 })
@@ -95,17 +118,22 @@ app.get("/invItem/getAll", async (req, res) => {
 
 // Get one specific item
 // show
-app.get("/invItem/:id", async (req, res) => {
+app.get("/invItem/show/:id", async (req, res) => {
+    console.log(req.body);
     try {
-            const {id} = req.params;
         const results =
-        await db.query(`SELECT * FROM product WHERE id = $1`, [id]);
-        console.log(res.status({ results }));
-        res.send(results);
+            await db.query(`SELECT * FROM product WHERE id = $1`,
+                [req.params.id]);
+        console.log(results);
+        res.status(200).json({
+            status: "success",
+            data: {
+                item: results.rows[0]
+            }
+        });
     } catch (error) {
         console.log(error);
     }
-    
 })
 
 app.listen(port, () => {

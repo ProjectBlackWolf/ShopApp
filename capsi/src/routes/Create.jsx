@@ -1,23 +1,35 @@
-import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import '../styles/App.css';
-import ItemFinder from '../api/ItemFinder';
 import { ItemContext } from '../context/ItemContext';
-
+import ItemFinder from '../api/ItemFinder';
 const Create = () => {
-  
-  const createItem = async (e) => {
+  const { addItems } = useContext(ItemContext);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [image, setImage] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [category_id, setCategory_id] = useState("");
+  const [sku, setSku] = useState("");
+  const [message, setMessage] = useState("");
+  const submitForm = async (e) => {
     e.preventDefault();
-    e = [ name, description, image, quantity, category ];
     try {
-      const response = await ItemFinder.post('/', {
-        name: e[0],
-        description: e[1],
-        image: e[2],
-        quantity: e[3],
-        category: e[4]
+      const response = await ItemFinder.post(`/`, {
+        id: id,
+        name: name,
+        price: price,
+        description: description,
+        image: image,
+        quantity: quantity,
+        category_id: category_id,
+        sku: sku
       });
+      
       console.log(response.data);
+      addItems(response.data.data.item); // addItems is a function that takes in an array of it
+      setMessage(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -28,23 +40,27 @@ const Create = () => {
       <h1>Add an Item</h1>
       <div className='buy-4'>
         <div className='form-row'>
-          <form action="/" method='POST'>
+          <form action='/getAll'>
+            <label htmlFor='id'>Id</label>
+            <input value={id} onChange={(e) => setId(e.target.value)} type='text' name='id' id='id' />
             <label htmlFor="name">Name</label>
             <div className='col'>
-              <input type="text" name="name" id="name" placeholder='name' />
+              <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" placeholder='name' />
             </div>
             <div className='col'>
-              <input className='form-control' type='text' placeholder='price'></input>
+              <input value={price} onChange={(e) => setPrice(e.target.value)} className='form-control' type='text' placeholder='price'></input>
             </div>
-            <Link to="/getAll"><button className='btn btn-primary'>Add</button></Link>
             <label htmlFor="description">Description</label>
-            <input type="text" name="description" id="description" />
+            <input value={description} onChange={(e) => setDescription(e.target.value)} type="text" name="description" id="description" />
             <label htmlFor="image">Image</label>
-            <input type="text" name="image" id="image" />
+            <input value={image} onChange={(e) => setImage(e.target.value)}type="text" name="image" id="image" />
             <label htmlFor="quantity">Quantity</label>
-            <input type="text" name="quantity" id="quantity" />
+            <input value={quantity} onChange={(e) => setQuantity(e.target.value)} type="text" name="quantity" id="quantity" />
             <label htmlFor="category">Category</label>
-            <input type="text" name="category" id="category" />
+            <input value={category_id} onChange={(e) => setCategory_id(e.target.value)} type="text" name="category" id="category" />
+            <label htmlFor="sku">SKU</label>
+            <input value={sku} onChange={(e) => setSku(e.target.value)} type="text" name="sku" id="sku" />
+            <button onClick={submitForm} type='submit' className='btn btn-primary'>Add</button>
           </form>
         </div>
       </div>
