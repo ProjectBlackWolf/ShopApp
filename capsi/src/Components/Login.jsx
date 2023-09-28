@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // This will be the login page
 const Login = () => {
@@ -28,6 +28,8 @@ const Login = () => {
         } catch (error) {
             setError(error.message);
         }
+        let nav = useNavigate();
+        nav(`/getAll`);
     }
     return (
         <div>
@@ -43,9 +45,9 @@ const Login = () => {
                 <input type="text" name="username" id="username" />
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" id="password" />
-                <button type="submit" onSubmit={handleSubmit}>Log In</button>
+                <Link to='../getAll'><button type="submit" onSubmit={handleSubmit}>Log In</button></Link>
             </form>
-            err: {error ? <>{error}</> : <Link to="/getAll"></Link>}
+            {/* err: {error ? <>{error}</> : <Link to="/getAll"></Link>} */}
         </div>
     )
 }

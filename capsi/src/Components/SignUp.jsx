@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "../styles/SignUp.css";
 
@@ -9,6 +9,7 @@ const SignUp = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [token, setToken] = useState(null);
+    let nav = useNavigate();
     async function handleSubmit(event) {
         event.preventDefault();
         try {
@@ -24,6 +25,7 @@ const SignUp = () => {
         } catch (error) {
             setError(error.message);
         }
+        
     }
     return (
         <>
@@ -35,8 +37,8 @@ const SignUp = () => {
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" id="password" />
                 
-                <button type="submit" onSubmit={handleSubmit}>Register</button>
-                {error ? <>{null}</> : <Link to="/login"></Link>}
+                <Link to='../getAll'><button type="submit" onSubmit={handleSubmit}>Register</button></Link>
+                {/* {error ? <>{null}</> : <Link to="/login"></Link>} */}
             </form>
         </>
     );

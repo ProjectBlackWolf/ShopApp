@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import '../styles/App.css';
 import { ItemContext } from '../context/ItemContext';
+import { Link, useNavigate } from 'react-router-dom';
 import ItemFinder from '../api/ItemFinder';
 const Create = () => {
   const { addItems } = useContext(ItemContext);
@@ -13,6 +14,7 @@ const Create = () => {
   const [category_id, setCategory_id] = useState("");
   const [sku, setSku] = useState("");
   const [message, setMessage] = useState("");
+  let nav = useNavigate();
   const submitForm = async (e) => {
     e.preventDefault();
     try {
@@ -30,6 +32,7 @@ const Create = () => {
       console.log(response.data);
       addItems(response.data.data.item); // addItems is a function that takes in an array of it
       setMessage(response.data);
+      nav(`/getAll`);
     } catch (err) {
       console.log(err);
     }
