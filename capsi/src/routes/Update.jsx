@@ -33,7 +33,8 @@ const Update = (props) => {
         setCategory_id(response.data.data.item.category_id);
         setSku(response.data.data.item.sku);
         setMessage(response.data.data);
-      } catch (err) { }
+        setSelectedItem(response.data.data.item);
+      } catch (err) {}
     };
     fetchData();
   }, []);
@@ -42,14 +43,14 @@ const Update = (props) => {
     e.preventDefault();
     try {
       const mein = await ItemFinder.put(`/${id}`, {
-        id,
+        cid,
         name,
         price,
-        description : description,
-        image : image,
-        quantity : quantity,
-        category_id : category_id,
-        sku: sku
+        description,
+        image,
+        quantity,
+        category_id,
+        sku
       });
       console.log(mein);
     } catch (err) {
@@ -65,10 +66,11 @@ const Update = (props) => {
         <ol>
           <h2>{name}</h2>
           <h3><label htmlFor="price">Price : {price}</label></h3>
-          <h3><label htmlFor="description">Description : {description}</label></h3>
+          <h3><label htmlFor="description">Description : {description}</label>
+          </h3>
           <br />
           <h3><label htmlFor="image"></label></h3>
-          <h3><img src={image} alt="" /></h3>
+          <h3><img src={image} alt=""/></h3>
           <br />
           <h3><label htmlFor="quantity">Quantity : {quantity}</label></h3>
           <h3><label htmlFor="category">Category : {category_id}</label></h3>
@@ -87,7 +89,7 @@ const Update = (props) => {
               </div>
               <div className='col'>
                 <label htmlFor="price">Price</label>
-                <input onChange={(e) => setPrice(e.target.value)} className='form-control' type='text' placeholder={price} ></input>
+                <input onChange={(e) => setPrice(e.target.value)} className='form-control' type='text' placeholder={price}></input>
               </div>
               <label htmlFor="description">Description</label>
               <input onChange={(e) => setDescription(e.target.value)} type="text" name="description" id="description" placeholder={description} />
@@ -101,7 +103,6 @@ const Update = (props) => {
               <input onChange={(e) => setSku(e.target.value)} type="text" name="sku" id="sku" placeholder={sku} />
               <button onClick={handleSubmit} className='btn btn-primary'>Update</button>
             </form>
-            
           </div>
         </div>
       </div>

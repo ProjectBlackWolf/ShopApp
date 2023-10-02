@@ -45,7 +45,10 @@ const Login = () => {
                 <input type="text" name="username" id="username" />
                 <label htmlFor="password">Password</label>
                 <input type="password" name="password" id="password" />
-                <Link to='../getAll'><button type="submit" onSubmit={handleSubmit}>Log In</button></Link>
+                <Link to='../getAll'>
+                    <button type="submit" onSubmit={handleSubmit}>Log In
+                    </button>
+                </Link>
             </form>
             {/* err: {error ? <>{error}</> : <Link to="/getAll"></Link>} */}
         </div>

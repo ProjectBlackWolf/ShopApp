@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 const Users = () => {
   const [users, setUsers] = useState();
-
+  
   return (
     <article>
       <h2>Users List</h2>
@@ -13,19 +13,8 @@ const Users = () => {
               <p>{user.email}</p>
               <p>{user.username}</p>
               <p>{user.password}</p>
-              <p>{user.name}</p> {/*
-                        firstname:'elwood',
-                        lastname:'curtis',
-                        */}
-              <p>{user.address}</p> {/*
-                        city:'kilcoole',
-                        street:'7835 new road',
-                        number:3,
-                        zipcode:'12926-3874',
-                        geolocation:{
-                            lat:'-37.3159',
-                            long:'81.1496'
-                        */}
+              <p>{user.name}</p>
+              <p>{user.address}</p>
               <p>{user.phone}</p>
             </div>
           );
@@ -34,7 +23,6 @@ const Users = () => {
         <p>No users found</p>
       )}
     </article>
-    
   )
 }
 
