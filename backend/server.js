@@ -4,7 +4,6 @@ import methodOverride from 'method-override';
 import db from './db/index.js';
 import dotenv from 'dotenv';
 import { getDirName } from "./getDirName.js";
-import morgan from 'morgan';
 const port = process.env.PORT || 3005;
 const app = express();
 const dirName = getDirName(import.meta.url);
@@ -101,11 +100,38 @@ app.post("/invItem", async (req, res) => {
     }
 })
 
+app.post('/login', showCookies, async (req, res) => {
+    const { id, ps } = req.body;
+    const login_res = await axios({
+        method: 'POST',
+        url: `${URL}/auth`,
+        data: {
+            id,
+            ps
+        }
+    })
+    req.jwt = login_res.data.jwt;
+    req.session.jwt = login_res.data.jwt;
+    console.log("POST/login");
+    res.send(login_res.data);
+});
+
 // welcome
 app.get('/', (req, res) => {
     res.send("hola");
 })
-//https://fakestoreapi.com/users
+
+app.get('/secret', requiresAuth, async (req, res) => {
+    const token = req.session.jwt;
+    const secret_res = await axios({
+        method: "GET",
+        url: `${URL}`,
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    return res.send(secret_res.data);
+});
 
 // GET ALL\ items
 app.get("/invItem/getAll", async (req, res) => {
@@ -134,7 +160,9 @@ app.get("/invItem/show/:id", async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-})
+});
+
+
 
 app.listen(port, () => {
     console.log
