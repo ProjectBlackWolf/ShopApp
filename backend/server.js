@@ -100,38 +100,38 @@ app.post("/invItem", async (req, res) => {
     }
 })
 
-app.post('/login', showCookies, async (req, res) => {
-    const { id, ps } = req.body;
-    const login_res = await axios({
-        method: 'POST',
-        url: `${URL}/auth`,
-        data: {
-            id,
-            ps
-        }
-    })
-    req.jwt = login_res.data.jwt;
-    req.session.jwt = login_res.data.jwt;
-    console.log("POST/login");
-    res.send(login_res.data);
-});
+// app.post('/login', showCookies, async (req, res) => {
+//     const { id, ps } = req.body;
+//     const login_res = await axios({
+//         method: 'POST',
+//         url: `${URL}/auth`,
+//         data: {
+//             id,
+//             ps
+//         }
+//     })
+//     req.jwt = login_res.data.jwt;
+//     req.session.jwt = login_res.data.jwt;
+//     console.log("POST/login");
+//     res.send(login_res.data);
+// });
 
 // welcome
 app.get('/', (req, res) => {
     res.send("hola");
 })
 
-app.get('/secret', requiresAuth, async (req, res) => {
-    const token = req.session.jwt;
-    const secret_res = await axios({
-        method: "GET",
-        url: `${URL}`,
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    })
-    return res.send(secret_res.data);
-});
+// app.get('/secret', requiresAuth, async (req, res) => {
+//     const token = req.session.jwt;
+//     const secret_res = await axios({
+//         method: "GET",
+//         url: `${URL}`,
+//         headers: {
+//             Authorization: `Bearer ${token}`
+//         }
+//     })
+//     return res.send(secret_res.data);
+// });
 
 // GET ALL\ items
 app.get("/invItem/getAll", async (req, res) => {
