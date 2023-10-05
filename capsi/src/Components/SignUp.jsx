@@ -34,12 +34,10 @@ const SignUp = () => {
                 <label htmlFor="username">Username</label>
                 <input type="text" name="username" id="username" />
                 <label htmlFor="password">Password</label>
-                <input type="password" name="password" id="password" />
+                <input type="password" name="password" id="password" /><Link to='../getAll'><button type="submit" onSubmit={handleSubmit}>Register</button></Link>
                 {!username && !password ? <p>Please enter a username and password</p> : 
-                    <Link to='../getAll'><button type="submit" onSubmit={handleSubmit}>Register</button></Link>}
-                {
-                    error ? <>{error}</> : <p>Success!</p>
-                }
+                    null}
+                <>{error}</> : <p>Success!</p>
             </form>
         </>
     );
