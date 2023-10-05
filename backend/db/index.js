@@ -8,8 +8,7 @@ const pool = new Pool({
                 host: process.env.HOST,
                 password: process.env.PASSWORD,
                 database: process.env.DATABASE,
-                port: process.env.PORT,
-                connectionString: process.env.CONNECTION_STRING
+                port: process.env.PORT
         })
 pool.connect();
 console.log('did we connex');
