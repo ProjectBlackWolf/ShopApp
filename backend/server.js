@@ -1,9 +1,14 @@
-import express from "express";
+import express, { application } from "express";
 import cors from 'cors';
 import methodOverride from 'method-override';
 import db from './db/index.js';
 import dotenv from 'dotenv';
 import { getDirName } from "./getDirName.js";
+import morgan from 'morgan';
+import validInfo from "./validInfo.js";
+import bcrypt from 'bcrypt';
+import jwtAuth from './JwtAuth.js';
+import jwtSeed from './JwtSeed.js';
 const port = process.env.PORT || 3005;
 const app = express();
 const dirName = getDirName(import.meta.url);
@@ -43,6 +48,7 @@ app.use((req, res, next) => {
     next();
 });
 // Delete an item
+
 app.delete("/invItem/:id", async (req, res) => {
     try {
         const results = db.query("DELETE FROM product where id = $1", [
@@ -57,8 +63,39 @@ app.delete("/invItem/:id", async (req, res) => {
     }
 })
 
+// deleting an item
+app.delete('/cart/:id', async (req, res) => {
+    try {
+        const results = db.query("DELETE FROM users where id = $1", [
+            req.params.id
+        ])
+    res.status(204).json({
+            status: "success",
+        });
+        console.log(results);
+    } catch (err) {
+        console.log(err);
+    }
+})
+
+// 'add to cart'
+app.put("/cart/:id", async (req, res) => {
+    try {
+        const results = await db.query("UPDATE cart SET name = $1, price = $2, description = $3, image = $4, quantity = $5 where id = $6 returning *", [
+            req.params.id
+        ]);
+        res.status(200).json({
+            status: "success",
+            data: {
+                users: results.rows[0]
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 // update
-// 'add to cart'??????
 // yes just because of this assignment
 app.put("/invItem/:id", async (req, res) => {
     try {
@@ -72,11 +109,62 @@ app.put("/invItem/:id", async (req, res) => {
                 item: results.rows[0]
             }
         });
+        res.json("Updated Item.");
     } catch (err) {
         console.log(err);
     }
     console.log(req.params.id);
     console.log(req.body);
+});
+
+// create a users
+app.post("/users", async (req, res) => {
+    // getting userdata from table
+    // 
+    try {
+        const send = await db.query(`INSERT INTO users(id, us, ps, cartInv) values ($1, $2, $3, $4) returning *`,
+            [
+                req.body.id, req.body.us, req.body.ps, req.body.cartInv
+            ]
+        );
+        console.log(send);
+        res.status(201).json({
+            status: "success",
+            data: {
+                item: results.rows[0],
+            },
+        });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+app.post("/signup", validInfo, async (req, res) => {
+    const { us, ps, cartInv } = req.body;
+
+    try {
+        const user = await db.query("SELECT * FROM users WHERE us = $1", [
+            us
+        ]);
+        
+        if (user.rows.length > 0) {
+            return res.status(401).json("User already exists!");
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const bcryptPassword = await bcrypt.hash(ps, salt);
+
+        let newUser = await db.query(
+            "INSERT INTER users (us, ps, cart) VALUES ($1, $2, $3) RETURNING *",
+            [us, bcryptPassword, cartInv]
+        );
+
+        const jwtToken = jwtGenerator(newUser.rows[0].us);
+        return res.json({ jwtToken });
+    } catch (error) {
+        console.log(err.message);
+        res.status(500).send("Server error");
+    }
 });
 
 // create 
@@ -90,7 +178,7 @@ app.post("/invItem", async (req, res) => {
         );
         console.log(results);
         res.status(201).json({
-            status: "succes",
+            status: "success",
             data: {
                 item: results.rows[0],
             },
@@ -100,38 +188,18 @@ app.post("/invItem", async (req, res) => {
     }
 })
 
-// app.post('/login', showCookies, async (req, res) => {
-//     const { id, ps } = req.body;
-//     const login_res = await axios({
-//         method: 'POST',
-//         url: `${URL}/auth`,
-//         data: {
-//             id,
-//             ps
-//         }
-//     })
-//     req.jwt = login_res.data.jwt;
-//     req.session.jwt = login_res.data.jwt;
-//     console.log("POST/login");
-//     res.send(login_res.data);
-// });
-
 // welcome
 app.get('/', (req, res) => {
     res.send("hola");
 })
 
-// app.get('/secret', requiresAuth, async (req, res) => {
-//     const token = req.session.jwt;
-//     const secret_res = await axios({
-//         method: "GET",
-//         url: `${URL}`,
-//         headers: {
-//             Authorization: `Bearer ${token}`
-//         }
-//     })
-//     return res.send(secret_res.data);
-// });
+app.get('/users', async (req, res) => {
+    try {
+        const userbase = await db.query('SELECT * FROM users');
+    } catch (error) {
+        
+    }
+})
 
 // GET ALL\ items
 app.get("/invItem/getAll", async (req, res) => {
@@ -160,9 +228,7 @@ app.get("/invItem/show/:id", async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-});
-
-
+})
 
 app.listen(port, () => {
     console.log
