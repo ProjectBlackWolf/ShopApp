@@ -1,11 +1,9 @@
 const express = require('express');
 
-
-function userToken(us, ps, cart)
+function userToken(us, ps)
 {
     this.username = us;
     this.password = ps;
-    this.cart = cart;
 };
 
 var userTokenFactoy = (fx = () => {
@@ -13,10 +11,10 @@ var userTokenFactoy = (fx = () => {
 
     return {
 
-        get: function (us, ps, cart) {
+        get: function (us, ps) {
             if (!tokens[us + ps]) {
                 tokens[us + ps] =
-                    new userToken(us, ps, cart);
+                    new userToken(us, ps);
             }
             return tokens[us + ps];
         },
@@ -37,9 +35,9 @@ function userBase() {
     var count = 0;
 
     return {
-        add: function (us, ps, cart, id) {
+        add: function (us, ps, id) {
             users[id] =
-                new User(us, ps, cart, id);
+                new User(us, ps, id);
             count++;
         },
 
@@ -53,9 +51,8 @@ function userBase() {
     };
 }
 
-var User = function (us, ps, cart, id) {
-    this.flyweight = userTokenFactoy.get(us, ps, cart, id);
-    this.cart = cart;
+var User = function (us, ps, id) {
+    this.flyweight = userTokenFactoy.get(us, ps, id);
     this.id = id;
     this.getMake = function () {
         return this.flyweight.us;
@@ -65,10 +62,10 @@ var User = function (us, ps, cart, id) {
 function seed() {
     var users = new userBase();
 
-    users.add("Chell", "uuR-Idx-3RG-7Eh", [], 0);
-    users.add("I", "Letlslssef345%j()eh", [], 6);
-    users.add("Dont", "FGZX-&73(-#($75-yuiF", [], 7);
-    users.add("Care", "Fartmunch87#", [], 88);
+    users.add("Chell", "uuR-Idx-3RG-7Eh", 0);
+    users.add("I", "Letlslssef345%j()eh", 6);
+    users.add("Dont", "FGZX-&73(-#($75-yuiF", 7);
+    users.add("Care", "Fartmunch87#", 88);
 
     console.log("Users: " + users.getCount());
     console.log("Flyweights: " + userTokenFactoy.getCount());

@@ -9,11 +9,11 @@ const authorize = require("./authorize");
 //authorizeentication
 
 router.post("/register", validInfo, async (req, res) => {
-  const { email, name, password } = req.body;
+  const { name, password } = req.body;
 
   try {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
-      email
+    const user = await pool.query("SELECT * FROM users WHERE us = $1", [
+      us
     ]);
 
     if (user.rows.length > 0) {
@@ -24,11 +24,11 @@ router.post("/register", validInfo, async (req, res) => {
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     let newUser = await pool.query(
-      "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
-      [name, email, bcryptPassword]
+      "INSERT INTO users (us, ps) VALUES ($1, $2) RETURNING *",
+      [name, bcryptPassword]
     );
 
-    const jwtToken = jwtGenerator(newUser.rows[0].user_id);
+    const jwtToken = jwtGenerator(newUser.rows[0].id);
 
     return res.json({ jwtToken });
   } catch (err) {
@@ -38,11 +38,11 @@ router.post("/register", validInfo, async (req, res) => {
 });
 
 router.post("/login", validInfo, async (req, res) => {
-  const { email, password } = req.body;
+  const { us, password } = req.body;
 
   try {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
-      email
+    const user = await pool.query("SELECT * FROM users WHERE us = $1", [
+      us
     ]);
 
     if (user.rows.length === 0) {
@@ -51,13 +51,13 @@ router.post("/login", validInfo, async (req, res) => {
 
     const validPassword = await bcrypt.compare(
       password,
-      user.rows[0].user_password
+      user.rows[0].ps
     );
 
     if (!validPassword) {
       return res.status(401).json("Invalid Credential");
     }
-    const jwtToken = jwtGenerator(user.rows[0].user_id);
+    const jwtToken = jwtGenerator(user.rows[0].id);
     return res.json({ jwtToken });
   } catch (err) {
     console.error(err.message);

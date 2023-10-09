@@ -7,7 +7,6 @@ import { getDirName } from "./getDirName.js";
 import morgan from 'morgan';
 import validInfo from "./validInfo.js";
 import bcrypt from 'bcrypt';
-import jwtAuth from './JwtAuth.js';
 import jwtSeed from './JwtSeed.js';
 const port = process.env.PORT || 3005;
 const app = express();
@@ -21,7 +20,7 @@ Express Middleware
                         
 */
 dotenv.config();
-//induces order 
+//induces hierarchy 
 //use
 //set 
 //engine
@@ -35,7 +34,8 @@ dotenv.config();
 // creates a new middle ware function to override
 // the req method property with a new value
 app.use(methodOverride("_method"));
-
+app.use("/authentication", require("./jwtAuth"));
+app.use("/dashboard", require("./dashboard"));
 //app.use('/public', express.static('public'));
 app.use(express.static(dirName + '/public')); // Keep
 app.use(cors());
@@ -64,9 +64,9 @@ app.delete("/invItem/:id", async (req, res) => {
 })
 
 // deleting an item
-app.delete('/cart/:id', async (req, res) => {
+app.delete('/orders/:id', async (req, res) => {
     try {
-        const results = db.query("DELETE FROM users where id = $1", [
+        const results = db.query("DELETE FROM orders where id = $1", [
             req.params.id
         ])
     res.status(204).json({
@@ -78,30 +78,15 @@ app.delete('/cart/:id', async (req, res) => {
     }
 })
 
-// 'add to cart'
-app.put("/cart/:id", async (req, res) => {
-    try {
-        const results = await db.query("UPDATE cart SET name = $1, price = $2, description = $3, image = $4, quantity = $5 where id = $6 returning *", [
-            req.params.id
-        ]);
-        res.status(200).json({
-            status: "success",
-            data: {
-                users: results.rows[0]
-            }
-        });
-    } catch (error) {
-        console.log(error);
-    }
-})
-
 // update
 // yes just because of this assignment
 app.put("/invItem/:id", async (req, res) => {
     try {
         const results = await db.query(
             "UPDATE product SET name = $1, price = $2, description = $3, image = $4, quantity = $5, category_id = $6, sku = $7 where id = $8 returning *",
-            [req.body.name, req.body.price, req.body.description, req.params.image, req.params.quantity, req.params.category_id, req.params.sku, req.params.id]
+            [req.body.name, req.body.price, req.body.description,
+                req.params.image, req.params.quantity,
+                req.params.category_id, req.params.sku, req.params.id]
         );
         res.status(200).json({
             status: "success",
@@ -117,14 +102,62 @@ app.put("/invItem/:id", async (req, res) => {
     console.log(req.body);
 });
 
-// create a users
+// updating the cart
+// updating info in the cart
+app.put("/cart/:id", async (req, res) => {
+    try {
+        const results = await db.query(
+            "UPDATE orders SET userid = $1, orderid = $2, quantity = $3 where id = $4 returning *",
+            [
+                req.body.userid, req.body.orderid,
+                req.body.quantity, req.body.id
+            ]
+        );
+        res.send(
+            {
+                status: "success",
+                data: {
+                    order: results.rows[0]
+                }
+            }
+        )
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+// 'add to cart'
+
+app.post("/cart/:id", async (req, res) => {
+    try {
+        const results = await db.query(`INSERT INTO orders (userid, itemid, quantity, id) values ($1, $2, $3, $4) returning *`, [
+            req.params.userid,
+            req.params.itemid,
+            req.params.quantity,
+            req.params.id
+        ]);
+
+        res.status(200).json({
+            status: "success",
+            data: {
+                users: results.rows[0]
+            }
+        });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// create a user
 app.post("/users", async (req, res) => {
     // getting userdata from table
     // 
     try {
-        const send = await db.query(`INSERT INTO users(id, us, ps, cartInv) values ($1, $2, $3, $4) returning *`,
+        const send = await db.query(`INSERT INTO users(id, us, ps) values ($1, $2, $3) returning *`,
             [
-                req.body.id, req.body.us, req.body.ps, req.body.cartInv
+                req.body.id,
+                req.body.us,
+                req.body.ps
             ]
         );
         console.log(send);
@@ -140,11 +173,11 @@ app.post("/users", async (req, res) => {
 })
 
 app.post("/signup", validInfo, async (req, res) => {
-    const { us, ps, cartInv } = req.body;
-
+    const { us, ps } = req.body;
     try {
         const user = await db.query("SELECT * FROM users WHERE us = $1", [
-            us
+            us,
+            ps
         ]);
         
         if (user.rows.length > 0) {
@@ -156,7 +189,7 @@ app.post("/signup", validInfo, async (req, res) => {
 
         let newUser = await db.query(
             "INSERT INTER users (us, ps, cart) VALUES ($1, $2, $3) RETURNING *",
-            [us, bcryptPassword, cartInv]
+            [us, bcryptPassword]
         );
 
         const jwtToken = jwtGenerator(newUser.rows[0].us);
@@ -172,8 +205,8 @@ app.post("/invItem", async (req, res) => {
     try {
         const results = await db.query(`INSERT INTO product(id, name, price, description, image, quantity, category_id, sku) values ($1, $2, $3, $4, $5, $6, $7, $8) returning *`,
             [
-                req.body.id, req.body.name, req.body.price, req.body.description, req.body.image,
-                req.body.quantity, req.body.category_id, req.body.sku
+                req.body.id, req.body.name, req.body.price, req.body.description,
+                req.body.image, req.body.quantity, req.body.category_id, req.body.sku
             ]
         );
         console.log(results);
@@ -193,11 +226,53 @@ app.get('/', (req, res) => {
     res.send("hola");
 })
 
-app.get('/users', async (req, res) => {
+// make a table called 'orders' and 'users'.
+// orders: with the values productId,  
+// and make the routes get, post, update and delete
+
+// getting the right user
+app.get('/users/:id', async (req, res) => {
     try {
-        const userbase = await db.query('SELECT * FROM users');
+        const userC = await db.query(`SELECT * FROM users WHERE $1 = `, [req.body.id]);
+        res.json(userC);
     } catch (error) {
-        
+        console.log(error);
+    }
+})
+
+// grabbing one users stuff.
+app.get('/orders/:userid', async (req, res) => {
+    try {
+        const orders = await db.query(`SELECT * FROM orders WHERE $1 = `, [req.body.userid]);
+        console.log(orders);
+            res.status(200).json({
+                status: "success",
+                data: {
+                    order: results.rows[0]
+                }
+            });
+        res.json(orders.rows);
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+// user orders for the user 
+app.get('/orders/:id', async (req, res) => {
+    try {
+        const orders =
+            await db.query(`SELECT * FROM orders WHERE userid = $1`,
+                [req.body.id]);
+            console.log(orders);
+            res.status(200).json({
+                status: "success",
+                data: {
+                    order: results.rows[0]
+                }
+            });
+        res.json(orders.rows);
+    } catch (error) {
+        console.log(error);
     }
 })
 
@@ -229,6 +304,8 @@ app.get("/invItem/show/:id", async (req, res) => {
         console.log(error);
     }
 })
+
+
 
 app.listen(port, () => {
     console.log
