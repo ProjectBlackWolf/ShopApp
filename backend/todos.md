@@ -5,12 +5,16 @@ what I Need :
 
 done so far
 
-2 Look at building the cart pipeline backwards
-Start with the cartpage 
+2 Look at building the 
+cart pipeline backwards
+Start with the cartpage
 then go with the fetch method
-then if that didn't work go with the 
+then if that didn't work go with the
 context method
+
+done so far with context
 
 3 Checkout and purchase
 checkout with the items.
 then thankyoupage test
+

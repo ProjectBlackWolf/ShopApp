@@ -241,9 +241,9 @@ app.get('/users/:id', async (req, res) => {
 })
 
 // grabbing one users stuff.
-app.get('/orders/:userid', async (req, res) => {
+app.get('/orders/stuff/:userid', async (req, res) => {
     try {
-        const orders = await db.query(`SELECT * FROM orders WHERE $1 = `, [req.body.userid]);
+        const orders = await db.query(`SELECT * FROM orders WHERE userid = `, [req.body.userid]);
         console.log(orders);
             res.status(200).json({
                 status: "success",
@@ -257,11 +257,11 @@ app.get('/orders/:userid', async (req, res) => {
     }
 })
 
-// user orders for the user 
+//order id
 app.get('/orders/:id', async (req, res) => {
     try {
         const orders =
-            await db.query(`SELECT * FROM orders WHERE userid = $1`,
+            await db.query(`SELECT * FROM orders WHERE id = $1`,
                 [req.body.id]);
             console.log(orders);
             res.status(200).json({

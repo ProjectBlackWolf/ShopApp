@@ -3,7 +3,10 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 
 import "../styles/SignUp.css";
 
+import UserFinder from "../api/UserFinder";
+import { UserContext } from '../context/UserContext';
 const SignUp = () => {
+    const { user, setUser } = useContext(UserContext);
     const { id } = useParams();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -13,19 +16,13 @@ const SignUp = () => {
     async function handleSubmit(event) {
         event.preventDefault();
         try {
-            const response = await fetch("https://fakestoreapi.com/users",
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username: username, password: password })
-                });
+            const response = await UserFinder.post(`/users/${user}`);
             const val = await response.json();
             setToken(val);
             console.log(val);
         } catch (error) {
             setError(error.message);
         }
-        
     }
     return (
         <>

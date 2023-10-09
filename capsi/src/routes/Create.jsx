@@ -18,7 +18,7 @@ const Create = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await ItemFinder.post(`/`, {
+      const response = await ItemFinder.post(`/`,{Headers: "POST"}, {
         id: id,
         name: name,
         price: price,
@@ -27,7 +27,7 @@ const Create = () => {
         quantity: quantity,
         category_id: category_id,
         sku: sku
-      });
+      }, {withCredentials: true });
       
       console.log(response.data);
       addItems(response.data.data.item); // addItems is a function that takes in an array of it

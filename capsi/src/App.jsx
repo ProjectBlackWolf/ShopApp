@@ -9,6 +9,8 @@ import NavBar from './Components/NavBar';
 import Welcome from './Components/Welcome';
 import Login from './Components/Login';
 import SignUp from './Components/SignUp';
+import Cart from './routes/Cart';
+import BuyForm from './Components/BuyForm';
 function App() {
   // load the ids from the database in the update and create pages.
   // using fetch from props or destructuring.
@@ -23,8 +25,11 @@ function App() {
           <Route path='/:id/update' element={<Update />} />
           <Route path='/show/:id' element={<ReadOne />} />
           <Route path='/create' element={<Create />} />
+          <Route path='/cart/:id' element={<Cart/>} />
           <Route path='/login' element={<Login />} />
+          <Route path='/buy/:id' element={<BuyForm/>}/>
           <Route path='/signup' element={<SignUp />} />
+          <Route path='/THANKS' element={<THANKS/>} />
         </Routes>
       </div>
     </>

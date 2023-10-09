@@ -20,10 +20,6 @@ export const ItemContextProvider = (props) => {
             }}>
                 {props.children}
             </ItemContext.Provider>
-            {/* <AuthContext.Provider value={[token, setToken]}> */}
-            {/* {token} ?
-            : <SignUp token={token} setToken={setToken} /> */}
-            {/* </AuthContext.Provider> */}
         </>
     )
 }

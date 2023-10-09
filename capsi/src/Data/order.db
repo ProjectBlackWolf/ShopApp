@@ -1,0 +1,29 @@
+INSERT into orders(
+    id,
+    userid,
+    itemid,
+    quantity
+    
+) values (
+    0, 0, 1, 1
+);
+
+INSERT into orders(
+    id,
+    userid,
+    itemid,
+    quantity
+    
+) values (
+    1, 0, 2, 1
+);
+
+INSERT into orders(
+    id,
+    userid,
+    itemid,
+    quantity
+    
+) values (
+    2, 0, 4, 1
+);

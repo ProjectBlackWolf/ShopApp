@@ -1,0 +1,23 @@
+INSERT into users (
+   id,
+   us,
+   ps
+) values(
+    0, 'Sol@ZeroAdmin', 'ItmContextZX0'
+);
+
+INSERT into users (
+   id,
+   us,
+   ps
+) values(
+    1, 'Bi', 'de3thtobe'
+);
+
+INSERT into users (
+   id,
+   us,
+   ps
+) values(
+    2, 'tRI', 'Vicme'
+);
