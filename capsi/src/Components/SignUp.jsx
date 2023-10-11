@@ -6,7 +6,7 @@ import "../styles/SignUp.css";
 import UserFinder from "../api/UserFinder";
 import { UserContext } from '../context/UserContext';
 const SignUp = () => {
-    const { user, setUser } = useContext(UserContext);
+    // const { user, setUser } = useContext(UserContext);
     const { id } = useParams();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");

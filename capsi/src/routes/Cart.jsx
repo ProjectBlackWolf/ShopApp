@@ -46,7 +46,8 @@ const Cart = (props) => {
                 <option value="9" id='buyQuantity'>9</option>
                 <option value="10" id='buyQuantity'>10</option>
             </select>
-            <Link to={`/buy/${user.id}`}></Link>
+            {/* <Link to={`/buy/${user.id}`}></Link> */}
+            <Link to={`/buy`}></Link>
         </>
     )
 }

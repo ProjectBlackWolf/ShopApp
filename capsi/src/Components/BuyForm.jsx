@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link, NavLink, Redirect, useNavigate } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 const BuyForm = ({ cartArr, total }) => {
   const [name, setName] = useState('');

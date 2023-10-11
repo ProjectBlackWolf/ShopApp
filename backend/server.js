@@ -30,7 +30,11 @@ dotenv.config();
 //get r
 //listen
 //
-
+const corsOptions = {
+    origin: "*",
+    credentials: true,
+    optionSuccessStatus: 200
+}
 // creates a new middle ware function to override
 // the req method property with a new value
 app.use(methodOverride("_method"));
@@ -38,7 +42,7 @@ app.use("/authentication", require("./jwtAuth"));
 app.use("/dashboard", require("./dashboard"));
 //app.use('/public', express.static('public'));
 app.use(express.static(dirName + '/public')); // Keep
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json()); // serve files from public statically
 //parsing incomming requests
 app.use(express.urlencoded({ extended: false }));
