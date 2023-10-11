@@ -9,24 +9,28 @@ import UserFinder from '../api/UserFinder';
 
 const Mainpage = (props) => {
   const { items, setItems } = useContext(ItemContext);
-  // const { user, setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   let history = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await ItemFinder.get('/getAll');
-        // const usere = await UserFinder.get(`/users/${props.match.params.id}`);
-        const usere = await fetch(`/users/${props.match.params.id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
+        // how do I chck if the user is logged in?
+        // if the user is logged in, then I can send the user id to the cart
+        // else I can send the user to the login page
+        const usere = await UserFinder.get(`/users/${props.match.params.id}`);
+        // const usere = await UserFinder.get(`/users`);
+        // const usere = await fetch(`/users/${props.match.params.id}`, {
+        //   method: 'GET',
+        //   headers: {
+        //     'Content-Type': 'application/json'
 
-          }
-        }).then(res => res.json()).then(data => data);
+        //   }
+        // }).then(res => res.json()).then(data => data);
         console.log(response.data);
         setItems(response.data);
-        setUser(usere);
+        // setUser(usere);
       } catch (err) { }
     };
     fetchData();

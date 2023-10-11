@@ -1,23 +1,26 @@
 INSERT into users (
    id,
    us,
-   ps
+   ps,
+   login
 ) values(
-    0, 'Sol@ZeroAdmin', 'ItmContextZX0'
+    0, 'Sol@ZeroAdmin', 'ItmContextZX0', true
 );
 
 INSERT into users (
    id,
    us,
-   ps
+   ps,
+   login
 ) values(
-    1, 'Bi', 'de3thtobe'
+    1, 'Bi', 'de3thtobe', false
 );
 
 INSERT into users (
    id,
    us,
-   ps
+   ps,
+   login
 ) values(
-    2, 'tRI', 'Vicme'
+    2, 'tRI', 'Vicme', false
 );

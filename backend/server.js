@@ -144,7 +144,7 @@ app.post("/cart/:id", async (req, res) => {
         res.status(200).json({
             status: "success",
             data: {
-                users: results.rows[0]
+                orders: results.rows[0]
             }
         });
     } catch (error) {
@@ -157,11 +157,12 @@ app.post("/users", async (req, res) => {
     // getting userdata from table
     // 
     try {
-        const send = await db.query(`INSERT INTO users(id, us, ps) values ($1, $2, $3) returning *`,
+        const send = await db.query(`INSERT INTO users(id, us, ps, login) values ($1, $2, $3, $4) returning *`,
             [
                 req.body.id,
                 req.body.us,
-                req.body.ps
+                req.body.ps,
+                req.body.login
             ]
         );
         console.log(send);
@@ -177,11 +178,13 @@ app.post("/users", async (req, res) => {
 })
 
 app.post("/signup", validInfo, async (req, res) => {
-    const { us, ps } = req.body;
+    const { id, us, ps, login } = req.body;
     try {
         const user = await db.query("SELECT * FROM users WHERE us = $1", [
+            id,
             us,
-            ps
+            ps,
+            login
         ]);
         
         if (user.rows.length > 0) {
@@ -192,7 +195,7 @@ app.post("/signup", validInfo, async (req, res) => {
         const bcryptPassword = await bcrypt.hash(ps, salt);
 
         let newUser = await db.query(
-            "INSERT INTER users (us, ps, cart) VALUES ($1, $2, $3) RETURNING *",
+            "INSERT INTER users (id, us, ps, login) VALUES ($1, $2, $3, $4) RETURNING *",
             [us, bcryptPassword]
         );
 
