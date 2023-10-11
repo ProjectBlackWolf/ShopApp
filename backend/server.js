@@ -263,18 +263,22 @@ app.get('/orders/:id', async (req, res) => {
         const orders =
             await db.query(`SELECT * FROM orders WHERE id = $1`,
                 [req.body.id]);
-            console.log(orders);
-            res.status(200).json({
-                status: "success",
-                data: {
-                    order: results.rows[0]
-                }
-            });
+        console.log(orders);
+        res.status(200).json({
+            status: "success",
+            data: {
+                order: results.rows[0]
+            }
+        });
         res.json(orders.rows);
     } catch (error) {
         console.log(error);
     }
-})
+});
+
+app.get("/THANKS", async (req, res) => {
+    res.send("Arigato.")
+});
 
 // GET ALL\ items
 app.get("/invItem/getAll", async (req, res) => {
