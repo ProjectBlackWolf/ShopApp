@@ -1,31 +1,35 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext } from 'react'
 
-export const ItemContext = createContext();
+export const ItemContext = createContext()
 // export const AuthContext = createContext();
 
 export const ItemContextProvider = (props) => {
-    const [items, setItems] = useState([]);
-    const [selectedItem, setSelectedItem] = useState(null);
-    const addItems = (item) => {
-        setItems([...items, item]);
-    };
-    return (
-        <>
-            <ItemContext.Provider value={{
-                items,
-                setItems,
-                addItems,
-                selectedItem,
-                setSelectedItem,
-            }}>
-                {props.children}
-            </ItemContext.Provider>
-            {/* <AuthContext.Provider value={[token, setToken]}> */}
-            {/* {token} ?
+  const [items, setItems] = useState([])
+  const [selectedItem, setSelectedItem] = useState(null)
+  const addItems = (item) => {
+    setItems([...items, item])
+  }
+
+  // JR: get children from props
+  const { children } = props
+  return (
+    <>
+      <ItemContext.Provider
+        value={{
+          items,
+          setItems,
+          addItems,
+          selectedItem,
+          setSelectedItem
+        }}>
+        {children}
+      </ItemContext.Provider>
+      {/* <AuthContext.Provider value={[token, setToken]}> */}
+      {/* {token} ?
             : <SignUp token={token} setToken={setToken} /> */}
-            {/* </AuthContext.Provider> */}
-        </>
-    )
+      {/* </AuthContext.Provider> */}
+    </>
+  )
 }
 
 export default ItemContextProvider
