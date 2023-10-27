@@ -4,6 +4,7 @@
   margin: 113px 100px;
   padding: 0px;
   border-radius: 0px;
+  align-self: center;
 }
 
 #containeroo{
@@ -11,6 +12,26 @@
   flex-wrap: wrap;
   height: auto;
   width: fit-content;
+}
+
+.contained{
+  display: inline;
+  flex: auto;
+  align-content: space-around;
+  justify-content: space-around;
+  width: fit-content;
+  height: auto;
+  margin: 0px;
+  padding: 0px;
+  border-radius: 0px;
+  align-self: center;
+}
+
+.container{
+  display:flex;
+  flex: auto;
+  align-content: center;
+  justify-content: center;
 }
 
 table{
@@ -70,7 +91,7 @@ img{
 }
 
 .container {
-  display:contents;
+  display: contents;
   scroll-behavior: smooth;
   z-index: -1;
 }

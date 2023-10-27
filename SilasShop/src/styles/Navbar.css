@@ -5,12 +5,24 @@
     align-self: center;
     justify-content: space-between;
     margin: 0;
-    padding: 0;
+    padding: 0px 20px;
     background-color: #1a1a1a;
     position: fixed;
     width: 20%;
     z-index: 0;
+    border: 2px solid #9cf2ff;
+    box-shadow: #00ddff 0px 0px 10px 0px;
     bottom: 90%;
+}
+
+.carty{
+    display: contents;
+    flex-wrap: wrap;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: #c8e7ff;
+    z-index: -1;
 }
 
 .container{

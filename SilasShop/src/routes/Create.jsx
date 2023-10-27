@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import '../styles/App.css';
 import { ItemContext } from '../context/ItemContext';
 import { Link, useNavigate } from 'react-router-dom';
@@ -19,7 +19,7 @@ const Create = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     try {
-      const response = await ItemFinder.post(`/`, { Headers: "POST" }, {
+      const response = await ItemFinder.post(`/`, {
         id: id,
         name: name,
         price: price,
@@ -28,7 +28,7 @@ const Create = () => {
         quantity: quantity,
         category_id: category_id,
         sku: sku
-      }, { withCredentials: true });
+      });
 
       console.log(response.data);
       addItems(response.data.data.item); // addItems is a function that takes in an array of it
