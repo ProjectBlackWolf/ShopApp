@@ -5,10 +5,10 @@ import db from './db/index.js';
 import dotenv from 'dotenv';
 import { getDirName } from "./getDirName.js";
 import morgan from 'morgan';
-import validInfo from "./validInfo.js";
+import validInfo  from "./validInfo.js";
 import bcrypt from 'bcrypt';
-import jwtAuth from './JwtAuth.js';
-import jwtSeed from './JwtSeed.js';
+// import jwtAuth from './JwtAuth.js'; these are unused - don't import them here.
+// import jwtSeed from './JwtSeed.js'; 
 const port = process.env.PORT || 3005;
 const app = express();
 const dirName = getDirName(import.meta.url);
