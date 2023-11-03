@@ -1,31 +1,18 @@
-import React, {useState} from "react";
-async function SignUp() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        let bool = false;
-        // handle login logic here
-        fetch('http://localhost:3000/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                { username, password, bool }
-            ),
-        }).then(response => response.json())
-            .then(data => console.log(data));
-    };
+import React from 'react';
+
+const SignUp = () => {
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="User">Username</label>
-                <input type="username" id="username" name="username" required />
-                <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" required />
-                <input type="submit" value="Submit" className="btn" />
+            <h2>Register</h2>
+            <form action="POST">
+                <label htmlFor="name">Name:</label>
+                <input type="text" name="name" />
+                <label htmlFor="password">Password:</label>
+                <input type="text" name="password" />
+                <input type="submit" value="Submit" />
             </form>
         </>
-    );
+    )
 }
 
-export default SignUp;
+export default SignUp

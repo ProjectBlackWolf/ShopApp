@@ -1,12 +1,12 @@
 import React, { createContext, useState } from 'react';
-
-export const UserContext = createContext();
+//// user context is Auth context
+export const UserContext = createContext({});
 
 const UserContextProvider = ({ children }) => {
-    const [users, setUsers] = useState([]);
+    const [user, setUser] = useState([]);
 
     return (
-        <UserContext.Provider value={{ users, setUsers }}>
+        <UserContext.Provider value={{ user, setUser }}>
             {children}
         </UserContext.Provider>
     );

@@ -8,8 +8,7 @@ import UserFinder from '../api/UserFinder';
 import OrderFinder from '../api/OrderFinder';
 import styled from 'styled-components';
 
-const StyledCart = styled.div
-    `
+const StyledCart = styled.div`
     body {
   background-color: #f2f2f2;
 }
@@ -90,20 +89,7 @@ const Cart = (props) => {
             <StyledCart>
                 <h1>Cart</h1>
                 {(props.user.name) ? (`${user.name}'s Cart`) : history('/login')}
-                {/* <select type='dropdown' class="dd">
-                <option value="0" id='buyQuantity'>0</option>
-                <option value="1" id='buyQuantity'>1</option>
-                <option value="2" id='buyQuantity'>2</option>
-                <option value="3" id='buyQuantity'>3</option>
-                <option value="4" id='buyQuantity'>4</option>
-                <option value="5" id='buyQuantity'>5</option>
-                <option value="6" id='buyQuantity'>6</option>
-                <option value="7" id='buyQuantity'>7</option>
-                <option value="8" id='buyQuantity'>8</option>
-                <option value="9" id='buyQuantity'>9</option>
-                <option value="10" id='buyQuantity'>10</option>
-            </select> */}
-                <Link to={`/buy`}></Link>
+                <button><Link to={`/buy`}></Link></button>
             </StyledCart>
         </>
     )
