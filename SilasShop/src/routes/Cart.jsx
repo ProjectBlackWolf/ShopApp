@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
 import UserContext from '../context/UserContext';
-import OrderContext from '../context/OrderContext';
 import { Link, NavLink, redirect, useNavigate } from 'react-router-dom';
 // css
 import '../styles/App.css';
-import UserFinder from '../api/UserFinder';
-import OrderFinder from '../api/OrderFinder';
 import styled from 'styled-components';
 
 const StyledCart = styled.div`
@@ -65,7 +62,7 @@ const StyledCart = styled.div`
 const Cart = (props) => {
     const { id } = useParams();
     const { order, setOrder } = useContext(OrderContext);
-    const { user, setUser } = useContext(UserContext);
+    // const { user, setUser } = useContext(UserContext);
 
     let history = useNavigate();
     useEffect(() => {
@@ -73,12 +70,11 @@ const Cart = (props) => {
             try {
                 const response =
                     await OrderFinder.get(`/orders/stuff/${id}`);
-                const usrRes =
-                    await UserFinder.get(`/users/${id}`);
+                // const usrRes = await UserFinder.get(`/users/${id}`);
                 console.log(response.data);
-                console.log(usrRes.data);
-                setOrder(response.data);
-                setUser(usrRes.data);
+                // console.log(usrRes.data);
+                // setOrder(response.data);
+                // setUser(usrRes.data);
             } catch (err) { console.log(err); }
         };
         fetchData();
@@ -87,9 +83,9 @@ const Cart = (props) => {
     return (
         <>
             <StyledCart>
-                <h1>Cart</h1>
+                {/* <h1>Cart</h1>
                 {(props.user.name) ? (`${user.name}'s Cart`) : history('/login')}
-                <button><Link to={`/buy`}></Link></button>
+                <button><Link to={`/buy`}></Link></button> */}
             </StyledCart>
         </>
     )
