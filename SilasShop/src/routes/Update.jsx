@@ -1,19 +1,19 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useParams, } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import ItemFinder from '../api/ItemFinder';
 
 const Update = () => {
   const [itm, sItm] = useState({ data: { item: {} } });
   const { id } = useParams();
-
+  const nav = useNavigate();
   useEffect(() => {
     try {
       const response = ItemFinder.get(`show/${id}`).then(
         (response) => {
-        sItm(response.data.data.item);
-        console.log(itm);
-      });
+          sItm(response.data.data.item);
+          console.log(itm);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -32,18 +32,23 @@ const Update = () => {
   const editData = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/invItem/${itm.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
+      const response = await fetch(`http://localhost:3000/invItem/${itm.id}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+      navi();
     } catch (error) {
       console.log(error);
     }
   }
 
+  const navi = () => {
+    nav('/getAll')
+  }
   return (
     <>
       <h1>Update</h1>

@@ -1,8 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-import '../styles/App.css';
 import { ItemContext } from '../context/ItemContext';
 import { Link, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import ItemFinder from '../api/ItemFinder';
+
+const MUIETyp = styled.div`
+    div: width: fit-content;
+    html: font-family: Roboto, Helvetica, Arial;
+    html: font-size: 23px;
+    color: #FFADDE;
+    h2: font-size: 50px;
+    background-color: #0D4DDD;
+`;
+const Container = styled.div`
+    text-align: center;
+`;
 
 const Create = () => {
   const { addItems } = useContext(ItemContext);
@@ -41,41 +53,46 @@ const Create = () => {
 
   return (
     <>
-      <h1>Add an Item</h1>
-      <div className='buy-4'>
-        <div className='form-row'>
-          <form action='/getAll'>
-            <label htmlFor='id'>Id</label>
-            <input value={id} onChange={(e) => setId(e.target.value)} type='number' name='id' id='id' />
-            <br />
+      <Container>
+        <MUIETyp>
+          <h1>Add an Item</h1>
+          <div className='buy-4'>
+            <div className='form-row'>
+              <form action='/getAll'>
+                <label htmlFor='id'>Id</label>
+                <input value={id} onChange={(e) => setId(e.target.value)} type='number' name='id' id='id' />
+                <br />
 
-            <div className='col'><label htmlFor="name">Name</label>
-              <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" placeholder='name' />
+                <div className='col'><label htmlFor="name">Name</label>
+                  <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" id="name" placeholder='name' />
+                </div>
+                <br />
+                <div className='col'>
+                  <label htmlFor="price">price</label>
+                  <input value={price} onChange={(e) => setPrice(e.target.value)} className='form-control' type='number' placeholder='price'></input>
+                </div>
+                <br />
+                <label htmlFor="description">Description</label>
+                <input value={description} onChange={(e) => setDescription(e.target.value)} type="text" name="description" id="description" />
+                <br />
+                <label htmlFor="image">Image</label>
+                <input value={image} onChange={(e) => setImage(e.target.value)} type="text" name="image" id="image" />
+                <br />
+                <label htmlFor="quantity">Quantity</label>
+                <input value={quantity} onChange={(e) => setQuantity(e.target.value)} type="number" name="quantity" id="quantity" />
+                <br />
+                <label htmlFor="category">Category</label>
+                <input value={category_id} onChange={(e) => setCategory_id(e.target.value)} type="number" name="category" id="category" />
+                <br />
+                <label htmlFor="sku">SKU</label>
+                <input value={sku} onChange={(e) => setSku(e.target.value)} type="text" name="sku" id="sku" />
+                <br />
+                <button onClick={submitForm} type='submit' className='btn btn-primary'>Add</button>
+              </form>
             </div>
-            <br />
-            <div className='col'>
-              <label htmlFor="price">price</label>
-              <input value={price} onChange={(e) => setPrice(e.target.value)} className='form-control' type='number' placeholder='price'></input>
-            </div>
-            <br />
-            <label htmlFor="description">Description</label>
-            <input value={description} onChange={(e) => setDescription(e.target.value)} type="text" name="description" id="description" />
-            <label htmlFor="image">Image</label>
-            <input value={image} onChange={(e) => setImage(e.target.value)} type="text" name="image" id="image" />
-            <br />
-            <label htmlFor="quantity">Quantity</label>
-            <input value={quantity} onChange={(e) => setQuantity(e.target.value)} type="number" name="quantity" id="quantity" />
-            <br />
-            <label htmlFor="category">Category</label>
-            <input value={category_id} onChange={(e) => setCategory_id(e.target.value)} type="number" name="category" id="category" />
-            <br />
-            <label htmlFor="sku">SKU</label>
-            <input value={sku} onChange={(e) => setSku(e.target.value)} type="text" name="sku" id="sku" />
-            <br />
-            <button onClick={submitForm} type='submit' className='btn btn-primary'>Add</button>
-          </form>
-        </div>
-      </div>
+          </div>
+        </MUIETyp>
+      </Container>
     </>
   )
 }

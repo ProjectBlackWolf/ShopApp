@@ -1,36 +1,47 @@
-import '../styles/App.css';
 import React, { useEffect, useContext } from 'react';
 import { ItemContext } from '../context/ItemContext';
-// import { UserContext } from '../context/UserContext';
+import { UserContext } from '../context/UserContext';
 import ItemFinder from '../api/ItemFinder';
+import styled from 'styled-components';
 import { Link, NavLink, redirect, useNavigate } from 'react-router-dom';
 // import UserFinder from '../api/UserFinder';
 // use the class method to fetch data
 
+const MUIETyp = styled.div`
+    img: width: 100px;
+    div: width: fit-content;
+    text-align: space-between;
+    html: font-family: Roboto, Helvetica, Arial;
+    html: font-size: 23px;
+    color: #A0ADDD;
+    h2: font-size: 50px;
+    background-color: #0D4DDD;
+    border: 2px solid #9cd4ff;
+    border-radius: 10px;
+`;
+
+const Image = styled.img`
+    width: 100px;
+`;
+
 const Mainpage = (props) => {
   const { items, setItems } = useContext(ItemContext);
-  // const { user, setUser } = useContext(UserContext);
-
+  const { user, setUser } = useContext(UserContext);
+  const tempUser = { id: 0, us: "Sol@ZeroAdmin", pw: "ItmContextZX0", isLogin: true };
+  let PUID = tempUser.id;
   let history = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await ItemFinder.get('/getAll');
+        const usere = await UserFinder.get(`/users/${PUID}`);
+        
         // how do I chck if the user is logged in?
         // if the user is logged in, then I can send the user id to the cart
         // else I can send the user to the login page
-        // const usere = await UserFinder.get(`/users/${props.match.params.id}`);
-        // const usere = await UserFinder.get(`/users`);
-        // const usere = await fetch(`/users/${props.match.params.id}`, {
-        //   method: 'GET',
-        //   headers: {
-        //     'Content-Type': 'application/json'
-
-        //   }
-        // }).then(res => res.json()).then(data => data);
         console.log(response.data);
         setItems(response.data);
-        // setUser(usere);
+        setUser(usere);
       } catch (err) { }
     };
     fetchData();
@@ -51,14 +62,14 @@ const Mainpage = (props) => {
 
   const handleUpdate = async (e, id) => {
     e.stopPropagation();
-    try {      
+    try {
       history(`/${id}/update`)
     } catch (err) {
       console.log(err);
     }
   };
 
-  const addToCart = async (e, id, userId, quantity) => {
+  const addToCart = async (e, id, quantity) => {
     e.stopPropagation();
     try {
 
@@ -66,9 +77,9 @@ const Mainpage = (props) => {
       // else send to login page
 
       if (user !== null) {
-        const nobj = { id: id, orderid: userId, quantity: quantity, userid: userId };
-        await UserFinder.post(`/cart/${userId}`, nobj);
-        history(`/cart/${userId}`);
+        const nobj = { id: id, orderid: user.id, quantity: quantity, userid: user.id };
+        await UserFinder.post(`/cart/${user.id}`, nobj);
+        history(`/cart/${user.id}`);
       }
       else {
         history(`/login`);
@@ -94,21 +105,23 @@ const Mainpage = (props) => {
       {
         im.map((item) => {
           return (
-            
-            <div id='containeroo' key={item.id}>
-              <ol className='card'>
-                <h5 className="card-title">{item.name}</h5>
-                <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
-                <img src={`${item.image}`}></img>
-                <button onClick={(e) => handleItemSelect(e, item.id)}>Details</button>
-                <button onClick={(e) => handleUpdate(e, item.id)}>Update</button>
-                {/* <button onClick={(e) => handleDelete(e, item.id)}>Delete</button> */}
-                <button onClick={
-                  (e) =>
-                    addToCart(e, item.id, user.id)
-                }>Add-To-Cart</button>
-              </ol>
-            </div>
+            <MUIETyp>
+              <div id='containeroo' key={item.id}>
+
+                <ol className='card'>
+                  <h5 className="card-title">{item.name}</h5>
+                  <h6 className="card-subtitle mb-2 text-muted">{item.price}</h6>
+                  <Image><img src={`${item.image}`}></img></Image>
+                  <button onClick={(e) => handleItemSelect(e, item.id)}>Details</button>
+                  <button onClick={(e) => handleUpdate(e, item.id)}>Update</button>
+                  {/* <button onClick={(e) => handleDelete(e, item.id)}>Delete</button> */}
+                  <button onClick={
+                    (e) =>
+                      addToCart(e, item.id, item.quantity)
+                  }>Add-To-Cart</button>
+                </ol>
+              </div>
+            </MUIETyp>
           )
         })
       }

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 const Cart = () => {
   return (
     <>
-      <h1>Cart</h1>
+      <h1>
+        Cart
+      </h1>
+      <>
+      </>
     </>
   )
 }
