@@ -1,7 +1,6 @@
 import React, { useState, createContext } from 'react';
 
 export const ItemContext = createContext();
-// export const AuthContext = createContext();
 
 export const ItemContextProvider = (props) => {
     const [items, setItems] = useState([]);

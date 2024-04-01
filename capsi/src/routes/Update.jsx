@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 // find a way to move the selected item onto this page.
 import { useParams } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ItemFinder from '../api/ItemFinder';
 import { ItemContext } from '../context/ItemContext.jsx';
 import '../styles/App.css';
