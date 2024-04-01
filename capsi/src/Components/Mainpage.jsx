@@ -19,7 +19,6 @@ const Mainpage = (props) => {
           await UserFinder.get(`/users/${props.match.params.id}`);
         console.log(response.data);
         setItems(response.data);
-        // setUser(usere);
       } catch (err) { }
     };
     fetchData();

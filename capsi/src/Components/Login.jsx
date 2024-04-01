@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import {captcha} from 'react-captcha';
 
 // This will be the login page
 const Login = ({ setAuth }) => {
@@ -11,6 +12,10 @@ const Login = ({ setAuth }) => {
     });
 
     const { username, password } = inputs;
+
+    captcha.onChange = (value) => {
+        console.log("Captcha value:", value);
+    };
 
     const onChange = (event) => {
         setInputs({ ...inputs, [event.target.name]: event.target.value });
@@ -72,8 +77,12 @@ const Login = ({ setAuth }) => {
     }
     return (
         <div>
+
             <h1>Log in</h1>
             <br />
+                <captcha sitekey="YOUR_SITE_KEY" />
+            <br />
+
             <div>
                 <h3>Or if you dont have an account you can..</h3>
                 <h3><Link to="/signup">Register</Link></h3>

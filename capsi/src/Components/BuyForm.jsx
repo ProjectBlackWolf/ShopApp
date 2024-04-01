@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
+import '../styles/App.css';
 
 const BuyForm = ({ cartArr, total }) => {
   const [name, setName] = useState('');
