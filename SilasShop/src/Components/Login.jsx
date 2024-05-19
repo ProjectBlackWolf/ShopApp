@@ -24,7 +24,6 @@ const Login = () => {
             <Container>
                 <MUIETyp>
                     <h2>Login</h2>
-                
                 <form>
                     <label>
                         Name:
