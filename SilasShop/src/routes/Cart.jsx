@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
-import UserContext from '../context/UserContext';
-import { Link, NavLink, redirect, useNavigate } from 'react-router-dom';
 // css
 import '../styles/App.css';
 import styled from 'styled-components';
+import { useEffect } from 'react';
+
 
 const StyledCart = styled.div`
     body {
@@ -59,17 +58,18 @@ const StyledCart = styled.div`
 }
     `;
 
-const Cart = (props) => {
-    const { id } = useParams();
-    const { order, setOrder } = useContext(OrderContext);
+const Cart = () => {
+    // const { id } = useParams();
+    // orders are account based. Use the sql call type. Context may be useless.
+    // const { order, setOrder } = useContext(OrderContext);
     // const { user, setUser } = useContext(UserContext);
 
-    let history = useNavigate();
+    // use a navigation method
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response =
-                    await OrderFinder.get(`/orders/stuff/${id}`);
+                    // await OrderFinder.get(`/orders/stuff/${id}`);
                 // const usrRes = await UserFinder.get(`/users/${id}`);
                 console.log(response.data);
                 // console.log(usrRes.data);

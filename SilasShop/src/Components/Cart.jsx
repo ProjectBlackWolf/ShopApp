@@ -1,5 +1,3 @@
-import React, {useState, useEffect} from 'react';
-
 const Cart = () => {
   return (
     <>
@@ -7,6 +5,10 @@ const Cart = () => {
         Cart
       </h1>
       <>
+      <>Items in CART : </>
+      <li>
+        
+      </li>
       </>
     </>
   )

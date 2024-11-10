@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 // find a way to move the selected item onto this page.
 import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import ItemFinder from '../api/ItemFinder';
-import { ItemContext } from '../context/ItemContext.jsx';
+// import { ItemContext } from '../context/ItemContext.jsx';
 import '../styles/App.css';
 
 const ReadOne = () => {
   const { id } = useParams();
-  const { selectedItem, setSelectedItem } = useContext(ItemContext);
+  // const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const [cid, setId] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -17,9 +17,9 @@ const ReadOne = () => {
   const [quantity, setQuantity] = useState("");
   const [category_id, setCategory_id] = useState("");
   const [sku, setSku] = useState("");
-  const [message, setMessage] = useState("");
+  // const [message, setMessage] = useState("");
 
-  const [error, setError] = useState("");
+  // const [error, setError] = useState("");
   let nav = useNavigate();
 
   useEffect(() => {
@@ -36,11 +36,12 @@ const ReadOne = () => {
         setCategory_id(response.data.data.item.category_id);
         setSku(response.data.data.item.sku);
       } catch (err) {
+        console.log(cid);
         console.log(err);
       }
     };
     fetchData();
-  }, []);
+  }, [cid, id]);
 
   const navBack = () => {
     nav(`/getAll`);

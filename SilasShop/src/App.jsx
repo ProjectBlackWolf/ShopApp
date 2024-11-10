@@ -1,6 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { Routes, Route, } from 'react-router-dom';
+// import { useState, useContext } from 'react';
 import styled from 'styled-components';
 import Mainpage from './Components/Mainpage';
 import NavBar from './Components/NavBar';
@@ -11,7 +10,8 @@ import ReadOne from './routes/ReadOne';
 import Cart from './routes/Cart';
 import Login from './Components/Login';
 import SignUp from './Components/SignUp';
-const { user, setUser } = useContext(UserContext);
+import { Checkout } from './Components/Checkout';
+// import UserContext from './context/UserContext.jsx'
 /*
 { <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -32,32 +32,33 @@ list-style-type: none;
     bottom: 100%;
 `;
 
-const MUIETyp = styled.div`
-    img: width: 100px;
-    div: width: fit-content;
-    text-align: space-between;
-    html: font-family: Roboto, Helvetica, Arial;
-    html: font-size: 23px;
-    color: #A0ADDD;
-    h2: font-size: 50px;
-    background-color: #0D4DDD;
-    border: 2px solid #9cd4ff;
-    border-radius: 10px;
-`;
+// const MUIETyp = styled.div`
+//     img: width: 100px;
+//     div: width: fit-content;
+//     text-align: space-between;
+//     html: font-family: Roboto, Helvetica, Arial;
+//     html: font-size: 23px;
+//     color: #A0ADDD;
+//     h2: font-size: 50px;
+//     background-color: #0D4DDD;
+//     border: 2px solid #9cd4ff;
+//     border-radius: 10px;
+// `;
 
-const Container = styled.div`
-    text-align: center;
-`;
+// const Container = styled.div`
+//     text-align: center;
+// `;
 
-const tempUser = {
-  id: 0, us: "Sol@ZeroAdmin", pw: "ItmContextZX0", isLogin: true
-};
+// const tempUser = {
+//   id: 0, us: "Sol@ZeroAdmin", pw: "ItmContextZX0", isLogin: true
+// };
 
-let PUID = tempUser.id;
+// let PUID = tempUser.id;
 
 function App() {
-  const [selected, setSelected] = useState({});
-  const [userS, setUserS] = useState({});
+  // const { user, setUser } = useContext(UserContext);
+  // const [selected, setSelected] = useState({});
+  // const [userS, setUserS] = useState({});
   return (
     <>
       <NavbarS/>
@@ -73,7 +74,7 @@ function App() {
           <Route path='/' element={<Welcome />} />
           <Route path='/create' element={<Create />} />
           <Route path='/users' element={<Login />} />
-          {/* <Route path='/buy' element={<BuyForm />} /> */}
+          <Route path='/buy' element={<Checkout />} />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/cart/:id' element={<Cart />} />
           <Route path='/show/:id' element={<ReadOne />} />
